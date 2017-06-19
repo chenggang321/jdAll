@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>zoom</title>
+    <style>
+        #preview>#mediumDiv
+        {
+            width: 350px;
+            height: 350px;
+            border: 1px solid #ddd;
+            text-align:center;
+            position: relative;
+        }
+        #preview>#mediumDiv img
+        {
+            vertical-align:middle;
+            width:350px;
+            height:350px;
+        }
+        #preview>#mediumDiv>#mask{
+            position: absolute;
+            width: 175px;
+            height: 175px;
+            background: #ffa;
+            opacity: 0.5;
+            top: 0;
+            left: 0;
+            display:none;
+        }
+        #preview>#mediumDiv>#superMask{
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            cursor: move;
+        }
+        #preview>#largeDiv{
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background-image: url(images/product-s1-l.jpg);
+            border: 1px solid #ddd;
+            top: 0;
+            left: 355px;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="preview">
+    <div id="mediumDiv">
+        <img id="mImg" src="images/product-s1-m.jpg"/>
+        <div id="mask"></div>
+        <div id="superMask"></div>
+    </div>
+    <div id="largeDiv"></div>
+</div>
+<script src="../js/jquery-1.11.3.js"></script>
+<script>
+    var zoom={
+        WIDTH:62,//保存每个li的宽度
+        OFFSET:20,//保存ul的起始left值
+        MSIZE:175,//保存mask的大小
+        MAXLEFT:175,MAXTOP:175,//保存mask可用的最大坐标
+        init:function(){
+            //为id为superMask的div添加hover事件,切换mask的显示和隐藏,再绑定鼠标移动事件为moveMask
+            $("#superMask").hover(this.toggle,this.toggle)
+                    .mousemove(this.moveMask.bind(this));
+        },
+        moveMask:function(e){
+            var x=e.offsetX;//获得鼠标相对于父元素的x
+            var y=e.offsetY;//获得鼠标相对于父元素的y
+            //计算mask的left: x-MSIZE/2
+            var left=x-this.MSIZE/2;
+            //计算mask的top: y-MSIZE/2
+            var top=y-this.MSIZE/2;
+            //如果left越界，要改回边界值
+            left=left<0?0:
+                    left>this.MAXLEFT?this.MAXLEFT:
+                            left;
+            //如果top越界，要改回边界值
+            top=top<0?0:
+                    top>this.MAXTOP?this.MAXTOP:
+                            top;
+            //设置id为mask的元素的left为left,top为top
+            $("#mask").css({left:left,top:top});
+            //设置id为largeDiv的背景图片位置:
+            $("#largeDiv").css(
+                    "backgroundPosition",
+                    -left*16/7+"px "+-top*16/7+"px");
+        },
+        toggle:function(){//切换mask的显示和隐藏
+            $("#mask").toggle();
+            $("#largeDiv").toggle();
+        }
+    }
+    zoom.init();
+</script>
+</body>
+</html>

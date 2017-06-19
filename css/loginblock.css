@@ -1,0 +1,40 @@
+#model{
+    width:100%;
+    background:rgba(0,0,0,0.7);
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    z-index: 10000;
+    display: none;
+}
+#loginBlock{
+    color:#666;
+    width:250px;
+    height:180px;
+    border:1px solid #ddd;
+    border-radius:5px;
+    background:#fff;
+    margin: 150px auto;
+}
+#loginBlock span{
+    margin:0 10px;
+}
+#loginBlock h3{
+    margin:20px 0;
+    text-align: center;
+}
+#loginBlock input{
+    width:150px;
+    height: 20px;
+    border:1px solid #E64346;
+    border-radius: 3px;
+    margin:5px 0;
+}
+#loginBlock #btn-login{
+    width:150px;
+    border-color: #999999;
+    margin: 0 50px;
+    color:#666;
+}
